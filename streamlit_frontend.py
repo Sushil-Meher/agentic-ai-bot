@@ -42,11 +42,9 @@ if user_input:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
 
-            response = chatbot.invoke({"messages":[HumanMessage(content = user_input)]},config = CONFIG)
-
-            assistant_response = response["messages"][-1].content
-
-            st.write(assistant_response)
+            assistant_response = st.write_stream(message_chunk.content 
+                                                 for message_chunk,metadata in chatbot.stream({"messages":[HumanMessage(content = user_input)]},config = CONFIG,stream_mode = "messages")if message_chunk.content)
+            
 
 
     st.session_state["message_history"].append({
